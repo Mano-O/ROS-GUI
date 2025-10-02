@@ -6585,25 +6585,25 @@ var app = (function () {
     			button3 = element("button");
     			button3.textContent = "Left";
     			attr_dev(h1, "class", "svelte-1vq0rbn");
-    			add_location(h1, file, 121, 1, 2503);
+    			add_location(h1, file, 147, 1, 2922);
     			attr_dev(h2, "class", "svelte-1vq0rbn");
-    			add_location(h2, file, 122, 1, 2522);
+    			add_location(h2, file, 148, 1, 2941);
     			attr_dev(p0, "class", "svelte-1vq0rbn");
-    			add_location(p0, file, 123, 1, 2552);
+    			add_location(p0, file, 149, 1, 2971);
     			attr_dev(p1, "class", "svelte-1vq0rbn");
-    			add_location(p1, file, 124, 1, 2578);
+    			add_location(p1, file, 150, 1, 2997);
     			attr_dev(p2, "class", "svelte-1vq0rbn");
-    			add_location(p2, file, 125, 1, 2604);
+    			add_location(p2, file, 151, 1, 3023);
     			attr_dev(p3, "class", "svelte-1vq0rbn");
-    			add_location(p3, file, 126, 1, 2638);
+    			add_location(p3, file, 152, 1, 3057);
     			attr_dev(p4, "class", "svelte-1vq0rbn");
-    			add_location(p4, file, 127, 1, 2685);
-    			add_location(button0, file, 128, 1, 2734);
-    			add_location(button1, file, 129, 1, 2784);
-    			add_location(button2, file, 130, 1, 2828);
-    			add_location(button3, file, 131, 1, 2874);
+    			add_location(p4, file, 153, 1, 3104);
+    			add_location(button0, file, 154, 1, 3153);
+    			add_location(button1, file, 155, 1, 3203);
+    			add_location(button2, file, 156, 1, 3247);
+    			add_location(button3, file, 157, 1, 3293);
     			attr_dev(main, "class", "svelte-1vq0rbn");
-    			add_location(main, file, 120, 0, 2495);
+    			add_location(main, file, 146, 0, 2914);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6683,7 +6683,7 @@ var app = (function () {
     function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
-    	var ros = new ROSLIB$1.Ros({ url: 'ws://192.168.1.105:9090' });
+    	var ros = new ROSLIB$1.Ros({ url: 'ws://localhost:9090' });
 
     	ros.on('connection', function () {
     		console.log('Connected to websocket server.');
@@ -6780,6 +6780,32 @@ var app = (function () {
     	const move_left = () => {
     		// function
     		console.log("Moving left...");
+    	};
+
+    	document.onkeydown = function (e) {
+    		console.log("pressed " + e.key);
+    		let key = e.key.toLowerCase();
+
+    		switch (key) {
+    			case "arrowup":
+    			case "w":
+    				move_forward();
+    				break;
+    			case "arrowdown":
+    			case "s":
+    				move_back();
+    				break;
+    			case "arrowright":
+    			case "d":
+    				move_right();
+    				break;
+    			case "arrowleft":
+    			case "a":
+    				move_left();
+    				break;
+    			default:
+    				console.log("Invalid Key");
+    		}
     	};
 
     	const writable_props = [];

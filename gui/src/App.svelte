@@ -4,7 +4,7 @@
   // -----------------
 
   var ros = new ROSLIB.Ros({
-    url : 'ws://192.168.1.105:9090'
+    url : 'ws://localhost:9090'
   });
 
   ros.on('connection', function() {
@@ -115,6 +115,32 @@
 	const move_left = () => {
 		// function
 		console.log("Moving left...");
+	}
+
+	document.onkeydown = function(e){
+		console.log("pressed " + e.key);
+
+		let key = e.key.toLowerCase();
+		switch (key){
+			case "arrowup":
+			case "w":
+				move_forward();
+				break;
+			case "arrowdown":
+			case "s":
+				move_back();
+				break;
+			case "arrowright":
+			case "d":
+				move_right();
+				break;
+			case "arrowleft":
+			case "a":
+				move_left();
+				break;
+			default:
+				console.log("Invalid Key");
+		}
 	}
 </script>
 
