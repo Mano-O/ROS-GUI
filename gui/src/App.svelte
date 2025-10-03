@@ -28,18 +28,27 @@
     messageType : 'geometry_msgs/msg/Twist'
   });
 
-  var twist = new ROSLIB.Message({
-    linear : {
-      x : 0.1,
-    },
-    angular : {
-      z : -0.3
-    }
-  });
-  cmdVel.publish(twist);
+  const MovementHandler = (Linearx, Lineary, Angularz) => {
+	var Twist = new ROSLIB.Message({
+		linear : {
+			x : Linearx,
+			y : Lineary,
+			z : 0.0
+		},
+		angular : {
+			x : 0.0,
+			y : 0.0,
+			z : Angularz
+		}
+	})
+	cmdVel.publish(Twist)
+  }
 
   // Subscribing to a Topic
   // ----------------------
+  let battery = 0
+  let LinearSpeed = 0.9
+  let AngularSpeed = 0.3
   let x = 0
   let y = 0
   let theta = 0
@@ -61,6 +70,18 @@
     console.log('Received message on ' + listener.name + ': ' + message.data);
     // listener.unsubscribe();
   });
+
+  var listener = new ROSLIB.Topic({
+    ros : ros,
+    name : '/battery',
+    messageType : 'int'
+  });
+
+  listener.subscribe(function(message) {
+	battery = message
+    console.log('Received message on ' + listener.name + ': ' + message.data);
+  });
+
 
   // Calling a service
   // -----------------
@@ -101,39 +122,24 @@
 //   });
 
 const move_forward = () => {
-  var twist = new ROSLIB.Message({
-    linear: { x: 0.5, y: 0, z: 0 },
-    angular: { x: 0, y: 0, z: 0 }
-  });
-  cmdVel.publish(twist);
+	MovementHandler(LinearSpeed, 0, 0)
 };
 
 const move_back = () => {
-  var twist = new ROSLIB.Message({
-    linear: { x: -0.5, y: 0, z: 0 },
-    angular: { x: 0, y: 0, z: 0 }
-  });
-  cmdVel.publish(twist);
+	MovementHandler(-LinearSpeed, 0, 0)
 };
 
 const move_left = () => {
-  var twist = new ROSLIB.Message({
-    linear: { x: 0, y: 0, z: 0 },
-    angular: { x: 0, y: 0, z: 0.5 }
-  });
-  cmdVel.publish(twist);
+	MovementHandler(0, 0, AngularSpeed)
 };
 
 const move_right = () => {
-  var twist = new ROSLIB.Message({
-    linear: { x: 0, y: 0, z: 0 },
-    angular: { x: 0, y: 0, z: -0.5 }
-  });
-  cmdVel.publish(twist);
-};
-	document.onkeydown = function(e){
-		console.log("pressed " + e.key);
+	MovementHandler(0, 0, -AngularSpeed)
 
+};
+const stop = () => {
+	MovementHandler(0, 0, 0)
+};
 
 	document.onkeydown = function(e){
 		console.log("pressed " + e.key);
@@ -156,6 +162,26 @@ const move_right = () => {
 			case "a":
 				move_left();
 				break;
+			case "+":
+			case "=":
+				LinearSpeed = LinearSpeed + 0.1;
+				break;
+			case "-":
+				LinearSpeed = LinearSpeed - 0.1;
+				if (LinearSpeed < 0)
+					LinearSpeed = 0;
+				break;
+			case "p":
+				AngularSpeed = AngularSpeed + 0.1;
+				break;
+			case "o":
+				AngularSpeed = AngularSpeed - 0.1;
+				if (AngularSpeed < 0)
+					AngularSpeed = 0;
+				break;
+			case " ":
+				stop();
+				break;
 			default:
 				console.log("Invalid Key");
 		}
@@ -165,22 +191,77 @@ const move_right = () => {
 <main>
 	<h1>ROS GUI!</h1>
 	<h2>Under Construction.</h2>
-	<p>Turtle Sim x: {x}</p>
-	<p>Turtle Sim y: {y}</p>
-	<p>Turtle Sim theta: {theta}</p2>
-	<p2>linear velcoity: {linear_v}</p2>
-	<p>Turtle Sim angular velocity: {angular_v}</p>
-	<p3>direction: {direction}</p3>
+	<!-- <div class="turtlesim"> 
+		<p>Turtle Sim x: {x}</p>
+		<p>Turtle Sim y: {y}</p>
+		<p>Turtle Sim theta: {theta}</p>
+		<p>Turtle Sim linear velcoity: {linear_v}</p>
+		<p>Turtle Sim angular velocity: {angular_v}</p>
+	</div> -->
+	<p>You can use your keyboard to move</p>
+	<p>Battery Percentage: {battery}</p>
+	<p>Press 'space' to stop </p>
 	<button on:click={move_forward}>Forward</button>
 	<button on:click={move_back}>Back</button>
 	<button on:click={move_right}>Right</button>
 	<button on:click={move_left}>Left</button>
-	<button2 on:click={stop}>stop</button2>
-	<button3 on:click={inc_velocity}>velocity up</button3>
-	<button4 on:click={dec_velocity}>velocity down</button4>
+	<button class="stop" on:click={stop}>STOP</button>
+	<button class="vup" on:click={LinearSpeed = LinearSpeed + 0.1}>velocity up</button>
+	<button class="vdown" on:click={LinearSpeed = LinearSpeed - 0.1}>velocity down</button>
+	
+	<div class="LinearSlideContainer">
+		<p>Linear Speed: </p>
+		<input type="range" min="0" max="20" bind:value={LinearSpeed} class="slider" id="myRange">
+		<input type="text" bind:value={LinearSpeed}>
+		<p>Press '+', '-' to adjust speed</p>
+	</div>
+	<div class="AngularSlideContainer">
+		<p>Angular Speed: </p>
+		<input type="range" min="0" max="10" bind:value={AngularSpeed} class="slider" id="myRange">
+		<input type="text" bind:value={AngularSpeed}>
+		<p>Press 'p', 'o' to adjust speed</p>
+	</div>
+	
+	
 </main>
 
+
 <style>
+	
+  .stop {
+    width: 3cm;
+		height: 3cm;
+		color: #080808;
+		background-color: #f8080875;
+		border: 2px solid red;
+		text-transform: uppercase;
+		border-radius: 3cm;
+		line-height: 3cm;
+		font-size: 2em;
+		font-weight: 100;
+		position: absolute;
+		top: 10	cm;
+		left: 5cm;
+  }
+  .stop:hover {
+    background: darkred;
+  }
+
+	.LinearSlideContainer {
+		display: flex;
+		align-items: left; /* vertically align slider and text */
+		gap: 10px; /* space between elements */
+	}
+	.AngularSlideContainer {
+		display: flex;
+		align-items: left; /* vertically align slider and text */
+		gap: 10px; /* space between elements */
+	}
+
+	.slider {
+		width: 30%; /* Full-width */
+	}
+
 	main {
 		text-align: center;
 		padding: 1em;
@@ -203,31 +284,6 @@ const move_right = () => {
 
 	p {
 		text-align: left;
-	}
-    p2{
-		height: 1cm;
-		color: #080808;
-		background-color: #f8080842;
-		border: 2px solid red;
-		text-transform: lowercase;
-		font-size: 1.5em;
-		font-weight: 100;
-		position: absolute;
-		top: 7cm;
-		left: 30cm;
-	}
-
-	p3{
-		height: 1cm;
-		color: #080808;
-		background-color: #f8080842;
-		border: 2px solid red;
-		text-transform: lowercase;
-		font-size: 1.5em;
-		font-weight: 100;
-		position: absolute;
-		top: 8.5cm;
-		left: 30cm;
 	}
 
 	button {
@@ -265,24 +321,8 @@ const move_right = () => {
 		top: 19.5cm;
 		left: 32cm;
 	}
-
-	button2{
-		width: 3cm;
-		height: 3cm;
-		color: #080808;
-		background-color: #f8080875;
-		border: 2px solid red;
-		text-transform: uppercase;
-		border-radius: 3cm;
-		line-height: 3cm;
-		font-size: 2em;
-		font-weight: 100;
-		position: absolute;
-		top: 10	cm;
-		left: 5cm;
-	}
-
-	button3{
+	
+	.vup{
 		width: 2.5cm;
 		height: 2.5cm;
 		color: #080808;
@@ -297,7 +337,7 @@ const move_right = () => {
 		top: 17cm;
 		left: 5cm;
 	}
-	button4{
+	.vdown{
 		width: 2.5cm;
 		height: 2.5cm;
 		color: #080808;
@@ -327,3 +367,4 @@ const move_right = () => {
 		}
 	}
 </style>
+

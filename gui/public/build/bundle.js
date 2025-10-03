@@ -1,5 +1,5 @@
 
-(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35730/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 var app = (function () {
     'use strict';
 
@@ -63,8 +63,14 @@ var app = (function () {
         else if (node.getAttribute(attribute) !== value)
             node.setAttribute(attribute, value);
     }
+    function to_number(value) {
+        return value === '' ? null : +value;
+    }
     function children(element) {
         return Array.from(element.childNodes);
+    }
+    function set_input_value(input, value) {
+        input.value = value == null ? '' : value;
     }
     function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
         const e = document.createEvent('CustomEvent');
@@ -6515,32 +6521,44 @@ var app = (function () {
     	let h2;
     	let t3;
     	let p0;
-    	let t4;
     	let t5;
-    	let t6;
     	let p1;
+    	let t6;
     	let t7;
     	let t8;
-    	let t9;
     	let p2;
     	let t10;
-    	let t11;
-    	let t12;
-    	let p3;
-    	let t13;
-    	let t14;
-    	let t15;
-    	let p4;
-    	let t16;
-    	let t17;
-    	let t18;
     	let button0;
-    	let t20;
+    	let t12;
     	let button1;
-    	let t22;
+    	let t14;
     	let button2;
-    	let t24;
+    	let t16;
     	let button3;
+    	let t18;
+    	let button4;
+    	let t20;
+    	let button5;
+    	let t22;
+    	let button6;
+    	let t24;
+    	let div0;
+    	let p3;
+    	let t26;
+    	let input0;
+    	let t27;
+    	let input1;
+    	let t28;
+    	let p4;
+    	let t30;
+    	let div1;
+    	let p5;
+    	let t32;
+    	let input2;
+    	let t33;
+    	let input3;
+    	let t34;
+    	let p6;
     	let mounted;
     	let dispose;
 
@@ -6554,56 +6572,111 @@ var app = (function () {
     			h2.textContent = "Under Construction.";
     			t3 = space();
     			p0 = element("p");
-    			t4 = text("Turtle Sim x: ");
-    			t5 = text(/*x*/ ctx[0]);
-    			t6 = space();
+    			p0.textContent = "You can use your keyboard to move";
+    			t5 = space();
     			p1 = element("p");
-    			t7 = text("Turtle Sim y: ");
-    			t8 = text(/*y*/ ctx[1]);
-    			t9 = space();
+    			t6 = text("Battery Percentage: ");
+    			t7 = text(/*battery*/ ctx[0]);
+    			t8 = space();
     			p2 = element("p");
-    			t10 = text("Turtle Sim theta: ");
-    			t11 = text(/*theta*/ ctx[2]);
-    			t12 = space();
-    			p3 = element("p");
-    			t13 = text("Turtle Sim linear velcoity: ");
-    			t14 = text(/*linear_v*/ ctx[3]);
-    			t15 = space();
-    			p4 = element("p");
-    			t16 = text("Turtle Sim angular velocity: ");
-    			t17 = text(/*angular_v*/ ctx[4]);
-    			t18 = space();
+    			p2.textContent = "Press 'space' to stop";
+    			t10 = space();
     			button0 = element("button");
     			button0.textContent = "Forward";
-    			t20 = space();
+    			t12 = space();
     			button1 = element("button");
     			button1.textContent = "Back";
-    			t22 = space();
+    			t14 = space();
     			button2 = element("button");
     			button2.textContent = "Right";
-    			t24 = space();
+    			t16 = space();
     			button3 = element("button");
     			button3.textContent = "Left";
-    			attr_dev(h1, "class", "svelte-1vq0rbn");
-    			add_location(h1, file, 147, 1, 2922);
-    			attr_dev(h2, "class", "svelte-1vq0rbn");
-    			add_location(h2, file, 148, 1, 2941);
-    			attr_dev(p0, "class", "svelte-1vq0rbn");
-    			add_location(p0, file, 149, 1, 2971);
-    			attr_dev(p1, "class", "svelte-1vq0rbn");
-    			add_location(p1, file, 150, 1, 2997);
-    			attr_dev(p2, "class", "svelte-1vq0rbn");
-    			add_location(p2, file, 151, 1, 3023);
-    			attr_dev(p3, "class", "svelte-1vq0rbn");
-    			add_location(p3, file, 152, 1, 3057);
-    			attr_dev(p4, "class", "svelte-1vq0rbn");
-    			add_location(p4, file, 153, 1, 3104);
-    			add_location(button0, file, 154, 1, 3153);
-    			add_location(button1, file, 155, 1, 3203);
-    			add_location(button2, file, 156, 1, 3247);
-    			add_location(button3, file, 157, 1, 3293);
-    			attr_dev(main, "class", "svelte-1vq0rbn");
-    			add_location(main, file, 146, 0, 2914);
+    			t18 = space();
+    			button4 = element("button");
+    			button4.textContent = "STOP";
+    			t20 = space();
+    			button5 = element("button");
+    			button5.textContent = "velocity up";
+    			t22 = space();
+    			button6 = element("button");
+    			button6.textContent = "velocity down";
+    			t24 = space();
+    			div0 = element("div");
+    			p3 = element("p");
+    			p3.textContent = "Linear Speed:";
+    			t26 = space();
+    			input0 = element("input");
+    			t27 = space();
+    			input1 = element("input");
+    			t28 = space();
+    			p4 = element("p");
+    			p4.textContent = "Press '+', '-' to adjust speed";
+    			t30 = space();
+    			div1 = element("div");
+    			p5 = element("p");
+    			p5.textContent = "Angular Speed:";
+    			t32 = space();
+    			input2 = element("input");
+    			t33 = space();
+    			input3 = element("input");
+    			t34 = space();
+    			p6 = element("p");
+    			p6.textContent = "Press 'p', 'o' to adjust speed";
+    			attr_dev(h1, "class", "svelte-264jcz");
+    			add_location(h1, file, 191, 1, 3744);
+    			attr_dev(h2, "class", "svelte-264jcz");
+    			add_location(h2, file, 192, 1, 3763);
+    			attr_dev(p0, "class", "svelte-264jcz");
+    			add_location(p0, file, 200, 1, 4023);
+    			attr_dev(p1, "class", "svelte-264jcz");
+    			add_location(p1, file, 201, 1, 4065);
+    			attr_dev(p2, "class", "svelte-264jcz");
+    			add_location(p2, file, 202, 1, 4103);
+    			attr_dev(button0, "class", "svelte-264jcz");
+    			add_location(button0, file, 203, 1, 4134);
+    			attr_dev(button1, "class", "svelte-264jcz");
+    			add_location(button1, file, 204, 1, 4184);
+    			attr_dev(button2, "class", "svelte-264jcz");
+    			add_location(button2, file, 205, 1, 4228);
+    			attr_dev(button3, "class", "svelte-264jcz");
+    			add_location(button3, file, 206, 1, 4274);
+    			attr_dev(button4, "class", "stop svelte-264jcz");
+    			add_location(button4, file, 207, 1, 4318);
+    			attr_dev(button5, "class", "vup svelte-264jcz");
+    			add_location(button5, file, 208, 1, 4370);
+    			attr_dev(button6, "class", "vdown svelte-264jcz");
+    			add_location(button6, file, 209, 1, 4455);
+    			attr_dev(p3, "class", "svelte-264jcz");
+    			add_location(p3, file, 212, 2, 4583);
+    			attr_dev(input0, "type", "range");
+    			attr_dev(input0, "min", "0");
+    			attr_dev(input0, "max", "20");
+    			attr_dev(input0, "class", "slider svelte-264jcz");
+    			attr_dev(input0, "id", "myRange");
+    			add_location(input0, file, 213, 2, 4607);
+    			attr_dev(input1, "type", "text");
+    			add_location(input1, file, 214, 2, 4700);
+    			attr_dev(p4, "class", "svelte-264jcz");
+    			add_location(p4, file, 215, 2, 4747);
+    			attr_dev(div0, "class", "LinearSlideContainer svelte-264jcz");
+    			add_location(div0, file, 211, 1, 4546);
+    			attr_dev(p5, "class", "svelte-264jcz");
+    			add_location(p5, file, 218, 2, 4832);
+    			attr_dev(input2, "type", "range");
+    			attr_dev(input2, "min", "0");
+    			attr_dev(input2, "max", "10");
+    			attr_dev(input2, "class", "slider svelte-264jcz");
+    			attr_dev(input2, "id", "myRange");
+    			add_location(input2, file, 219, 2, 4857);
+    			attr_dev(input3, "type", "text");
+    			add_location(input3, file, 220, 2, 4951);
+    			attr_dev(p6, "class", "svelte-264jcz");
+    			add_location(p6, file, 221, 2, 4999);
+    			attr_dev(div1, "class", "AngularSlideContainer svelte-264jcz");
+    			add_location(div1, file, 217, 1, 4794);
+    			attr_dev(main, "class", "svelte-264jcz");
+    			add_location(main, file, 190, 0, 3736);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6615,50 +6688,108 @@ var app = (function () {
     			append_dev(main, h2);
     			append_dev(main, t3);
     			append_dev(main, p0);
-    			append_dev(p0, t4);
-    			append_dev(p0, t5);
-    			append_dev(main, t6);
+    			append_dev(main, t5);
     			append_dev(main, p1);
+    			append_dev(p1, t6);
     			append_dev(p1, t7);
-    			append_dev(p1, t8);
-    			append_dev(main, t9);
+    			append_dev(main, t8);
     			append_dev(main, p2);
-    			append_dev(p2, t10);
-    			append_dev(p2, t11);
-    			append_dev(main, t12);
-    			append_dev(main, p3);
-    			append_dev(p3, t13);
-    			append_dev(p3, t14);
-    			append_dev(main, t15);
-    			append_dev(main, p4);
-    			append_dev(p4, t16);
-    			append_dev(p4, t17);
-    			append_dev(main, t18);
+    			append_dev(main, t10);
     			append_dev(main, button0);
-    			append_dev(main, t20);
+    			append_dev(main, t12);
     			append_dev(main, button1);
-    			append_dev(main, t22);
+    			append_dev(main, t14);
     			append_dev(main, button2);
-    			append_dev(main, t24);
+    			append_dev(main, t16);
     			append_dev(main, button3);
+    			append_dev(main, t18);
+    			append_dev(main, button4);
+    			append_dev(main, t20);
+    			append_dev(main, button5);
+    			append_dev(main, t22);
+    			append_dev(main, button6);
+    			append_dev(main, t24);
+    			append_dev(main, div0);
+    			append_dev(div0, p3);
+    			append_dev(div0, t26);
+    			append_dev(div0, input0);
+    			set_input_value(input0, /*LinearSpeed*/ ctx[1]);
+    			append_dev(div0, t27);
+    			append_dev(div0, input1);
+    			set_input_value(input1, /*LinearSpeed*/ ctx[1]);
+    			append_dev(div0, t28);
+    			append_dev(div0, p4);
+    			append_dev(main, t30);
+    			append_dev(main, div1);
+    			append_dev(div1, p5);
+    			append_dev(div1, t32);
+    			append_dev(div1, input2);
+    			set_input_value(input2, /*AngularSpeed*/ ctx[2]);
+    			append_dev(div1, t33);
+    			append_dev(div1, input3);
+    			set_input_value(input3, /*AngularSpeed*/ ctx[2]);
+    			append_dev(div1, t34);
+    			append_dev(div1, p6);
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "click", /*move_forward*/ ctx[5], false, false, false, false),
-    					listen_dev(button1, "click", /*move_back*/ ctx[6], false, false, false, false),
-    					listen_dev(button2, "click", /*move_right*/ ctx[7], false, false, false, false),
-    					listen_dev(button3, "click", /*move_left*/ ctx[8], false, false, false, false)
+    					listen_dev(button0, "click", /*move_forward*/ ctx[3], false, false, false, false),
+    					listen_dev(button1, "click", /*move_back*/ ctx[4], false, false, false, false),
+    					listen_dev(button2, "click", /*move_right*/ ctx[6], false, false, false, false),
+    					listen_dev(button3, "click", /*move_left*/ ctx[5], false, false, false, false),
+    					listen_dev(button4, "click", /*stop*/ ctx[7], false, false, false, false),
+    					listen_dev(
+    						button5,
+    						"click",
+    						function () {
+    							if (is_function(/*LinearSpeed*/ ctx[1] = /*LinearSpeed*/ ctx[1] + 0.1)) (/*LinearSpeed*/ ctx[1] = /*LinearSpeed*/ ctx[1] + 0.1).apply(this, arguments);
+    						},
+    						false,
+    						false,
+    						false,
+    						false
+    					),
+    					listen_dev(
+    						button6,
+    						"click",
+    						function () {
+    							if (is_function(/*LinearSpeed*/ ctx[1] = /*LinearSpeed*/ ctx[1] - 0.1)) (/*LinearSpeed*/ ctx[1] = /*LinearSpeed*/ ctx[1] - 0.1).apply(this, arguments);
+    						},
+    						false,
+    						false,
+    						false,
+    						false
+    					),
+    					listen_dev(input0, "change", /*input0_change_input_handler*/ ctx[8]),
+    					listen_dev(input0, "input", /*input0_change_input_handler*/ ctx[8]),
+    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[9]),
+    					listen_dev(input2, "change", /*input2_change_input_handler*/ ctx[10]),
+    					listen_dev(input2, "input", /*input2_change_input_handler*/ ctx[10]),
+    					listen_dev(input3, "input", /*input3_input_handler*/ ctx[11])
     				];
 
     				mounted = true;
     			}
     		},
-    		p: function update(ctx, [dirty]) {
-    			if (dirty & /*x*/ 1) set_data_dev(t5, /*x*/ ctx[0]);
-    			if (dirty & /*y*/ 2) set_data_dev(t8, /*y*/ ctx[1]);
-    			if (dirty & /*theta*/ 4) set_data_dev(t11, /*theta*/ ctx[2]);
-    			if (dirty & /*linear_v*/ 8) set_data_dev(t14, /*linear_v*/ ctx[3]);
-    			if (dirty & /*angular_v*/ 16) set_data_dev(t17, /*angular_v*/ ctx[4]);
+    		p: function update(new_ctx, [dirty]) {
+    			ctx = new_ctx;
+    			if (dirty & /*battery*/ 1) set_data_dev(t7, /*battery*/ ctx[0]);
+
+    			if (dirty & /*LinearSpeed*/ 2) {
+    				set_input_value(input0, /*LinearSpeed*/ ctx[1]);
+    			}
+
+    			if (dirty & /*LinearSpeed*/ 2 && input1.value !== /*LinearSpeed*/ ctx[1]) {
+    				set_input_value(input1, /*LinearSpeed*/ ctx[1]);
+    			}
+
+    			if (dirty & /*AngularSpeed*/ 4) {
+    				set_input_value(input2, /*AngularSpeed*/ ctx[2]);
+    			}
+
+    			if (dirty & /*AngularSpeed*/ 4 && input3.value !== /*AngularSpeed*/ ctx[2]) {
+    				set_input_value(input3, /*AngularSpeed*/ ctx[2]);
+    			}
     		},
     		i: noop,
     		o: noop,
@@ -6705,13 +6836,22 @@ var app = (function () {
     			messageType: 'geometry_msgs/msg/Twist'
     		});
 
-    	var twist = new ROSLIB$1.Message({ linear: { x: 0.1 }, angular: { z: -0.3 } });
-    	cmdVel.publish(twist);
+    	const MovementHandler = (Linearx, Lineary, Angularz) => {
+    		var Twist = new ROSLIB$1.Message({
+    				linear: { x: Linearx, y: Lineary, z: 0.0 },
+    				angular: { x: 0.0, y: 0.0, z: Angularz }
+    			});
+
+    		cmdVel.publish(Twist);
+    	};
 
     	// Subscribing to a Topic
     	// ----------------------
-    	let x = 0;
+    	let battery = 0;
 
+    	let LinearSpeed = 0.9;
+    	let AngularSpeed = 0.3;
+    	let x = 0;
     	let y = 0;
     	let theta = 0;
     	let linear_v = 0;
@@ -6724,13 +6864,24 @@ var app = (function () {
     		});
 
     	listener.subscribe(function (message) {
-    		$$invalidate(0, x = message.x);
-    		$$invalidate(1, y = message.y);
-    		$$invalidate(2, theta = message.theta);
-    		$$invalidate(3, linear_v = message.linear_velocity);
-    		$$invalidate(4, angular_v = message.angular_velocity);
+    		x = message.x;
+    		y = message.y;
+    		theta = message.theta;
+    		linear_v = message.linear_velocity;
+    		angular_v = message.angular_velocity;
     		console.log('Received message on ' + listener.name + ': ' + message.data);
     	}); // listener.unsubscribe();
+
+    	var listener = new ROSLIB$1.Topic({
+    			ros,
+    			name: '/battery',
+    			messageType: 'int'
+    		});
+
+    	listener.subscribe(function (message) {
+    		$$invalidate(0, battery = message);
+    		console.log('Received message on ' + listener.name + ': ' + message.data);
+    	});
 
     	// Calling a service
     	// -----------------
@@ -6763,23 +6914,23 @@ var app = (function () {
     	//     console.log('MAX VAL: ' + value);
     	//   });
     	const move_forward = () => {
-    		// function
-    		console.log("Moving forward...");
+    		MovementHandler(LinearSpeed, 0, 0);
     	};
 
     	const move_back = () => {
-    		// function
-    		console.log("Moving back...");
-    	};
-
-    	const move_right = () => {
-    		// function
-    		console.log("Moving right...");
+    		MovementHandler(-LinearSpeed, 0, 0);
     	};
 
     	const move_left = () => {
-    		// function
-    		console.log("Moving left...");
+    		MovementHandler(0, 0, AngularSpeed);
+    	};
+
+    	const move_right = () => {
+    		MovementHandler(0, 0, -AngularSpeed);
+    	};
+
+    	const stop = () => {
+    		MovementHandler(0, 0, 0);
     	};
 
     	document.onkeydown = function (e) {
@@ -6803,6 +6954,24 @@ var app = (function () {
     			case "a":
     				move_left();
     				break;
+    			case "+":
+    			case "=":
+    				$$invalidate(1, LinearSpeed = LinearSpeed + 0.1);
+    				break;
+    			case "-":
+    				$$invalidate(1, LinearSpeed = LinearSpeed - 0.1);
+    				if (LinearSpeed < 0) $$invalidate(1, LinearSpeed = 0);
+    				break;
+    			case "p":
+    				$$invalidate(2, AngularSpeed = AngularSpeed + 0.1);
+    				break;
+    			case "o":
+    				$$invalidate(2, AngularSpeed = AngularSpeed - 0.1);
+    				if (AngularSpeed < 0) $$invalidate(2, AngularSpeed = 0);
+    				break;
+    			case " ":
+    				stop();
+    				break;
     			default:
     				console.log("Invalid Key");
     		}
@@ -6814,11 +6983,34 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
+    	function input0_change_input_handler() {
+    		LinearSpeed = to_number(this.value);
+    		$$invalidate(1, LinearSpeed);
+    	}
+
+    	function input1_input_handler() {
+    		LinearSpeed = this.value;
+    		$$invalidate(1, LinearSpeed);
+    	}
+
+    	function input2_change_input_handler() {
+    		AngularSpeed = to_number(this.value);
+    		$$invalidate(2, AngularSpeed);
+    	}
+
+    	function input3_input_handler() {
+    		AngularSpeed = this.value;
+    		$$invalidate(2, AngularSpeed);
+    	}
+
     	$$self.$capture_state = () => ({
     		ROSLIB: ROSLIB$1,
     		ros,
     		cmdVel,
-    		twist,
+    		MovementHandler,
+    		battery,
+    		LinearSpeed,
+    		AngularSpeed,
     		x,
     		y,
     		theta,
@@ -6827,19 +7019,22 @@ var app = (function () {
     		listener,
     		move_forward,
     		move_back,
+    		move_left,
     		move_right,
-    		move_left
+    		stop
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('ros' in $$props) ros = $$props.ros;
     		if ('cmdVel' in $$props) cmdVel = $$props.cmdVel;
-    		if ('twist' in $$props) twist = $$props.twist;
-    		if ('x' in $$props) $$invalidate(0, x = $$props.x);
-    		if ('y' in $$props) $$invalidate(1, y = $$props.y);
-    		if ('theta' in $$props) $$invalidate(2, theta = $$props.theta);
-    		if ('linear_v' in $$props) $$invalidate(3, linear_v = $$props.linear_v);
-    		if ('angular_v' in $$props) $$invalidate(4, angular_v = $$props.angular_v);
+    		if ('battery' in $$props) $$invalidate(0, battery = $$props.battery);
+    		if ('LinearSpeed' in $$props) $$invalidate(1, LinearSpeed = $$props.LinearSpeed);
+    		if ('AngularSpeed' in $$props) $$invalidate(2, AngularSpeed = $$props.AngularSpeed);
+    		if ('x' in $$props) x = $$props.x;
+    		if ('y' in $$props) y = $$props.y;
+    		if ('theta' in $$props) theta = $$props.theta;
+    		if ('linear_v' in $$props) linear_v = $$props.linear_v;
+    		if ('angular_v' in $$props) angular_v = $$props.angular_v;
     		if ('listener' in $$props) listener = $$props.listener;
     	};
 
@@ -6848,15 +7043,18 @@ var app = (function () {
     	}
 
     	return [
-    		x,
-    		y,
-    		theta,
-    		linear_v,
-    		angular_v,
+    		battery,
+    		LinearSpeed,
+    		AngularSpeed,
     		move_forward,
     		move_back,
+    		move_left,
     		move_right,
-    		move_left
+    		stop,
+    		input0_change_input_handler,
+    		input1_input_handler,
+    		input2_change_input_handler,
+    		input3_input_handler
     	];
     }
 
