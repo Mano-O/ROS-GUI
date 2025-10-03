@@ -167,13 +167,17 @@ const move_right = () => {
 	<h2>Under Construction.</h2>
 	<p>Turtle Sim x: {x}</p>
 	<p>Turtle Sim y: {y}</p>
-	<p>Turtle Sim theta: {theta}</p>
-	<p>Turtle Sim linear velcoity: {linear_v}</p>
+	<p>Turtle Sim theta: {theta}</p2>
+	<p2>linear velcoity: {linear_v}</p2>
 	<p>Turtle Sim angular velocity: {angular_v}</p>
+	<p3>direction: {direction}</p3>
 	<button on:click={move_forward}>Forward</button>
 	<button on:click={move_back}>Back</button>
 	<button on:click={move_right}>Right</button>
 	<button on:click={move_left}>Left</button>
+	<button2 on:click={stop}>stop</button2>
+	<button3 on:click={inc_velocity}>velocity up</button3>
+	<button4 on:click={dec_velocity}>velocity down</button4>
 </main>
 
 <style>
@@ -200,7 +204,123 @@ const move_right = () => {
 	p {
 		text-align: left;
 	}
+    p2{
+		height: 1cm;
+		color: #080808;
+		background-color: #f8080842;
+		border: 2px solid red;
+		text-transform: lowercase;
+		font-size: 1.5em;
+		font-weight: 100;
+		position: absolute;
+		top: 7cm;
+		left: 30cm;
+	}
 
+	p3{
+		height: 1cm;
+		color: #080808;
+		background-color: #f8080842;
+		border: 2px solid red;
+		text-transform: lowercase;
+		font-size: 1.5em;
+		font-weight: 100;
+		position: absolute;
+		top: 8.5cm;
+		left: 30cm;
+	}
+
+	button {
+		width: 3cm;
+		height: 1cm;
+		color: #080808;
+		background-color: #f8f4089f;
+		border: 2px solid red;
+		border-radius: 5cm;
+		text-transform: lowercase;
+		font-size: 1.5em;
+		font-weight: 100;
+	}
+	button:hover {
+		background-color: #f3ef00da;
+	}
+
+	button {
+		position: absolute;
+	}
+	button:nth-of-type(1) {
+		top: 18cm;
+		left: 35cm;
+	}
+	button:nth-of-type(2) {
+		top: 21cm;
+		left: 35cm;
+	}
+	button:nth-of-type(3){
+		top: 19.5cm;
+		left: 38cm;
+	}
+
+	button:nth-of-type(4){
+		top: 19.5cm;
+		left: 32cm;
+	}
+
+	button2{
+		width: 3cm;
+		height: 3cm;
+		color: #080808;
+		background-color: #f8080875;
+		border: 2px solid red;
+		text-transform: uppercase;
+		border-radius: 3cm;
+		line-height: 3cm;
+		font-size: 2em;
+		font-weight: 100;
+		position: absolute;
+		top: 10	cm;
+		left: 5cm;
+	}
+
+	button3{
+		width: 2.5cm;
+		height: 2.5cm;
+		color: #080808;
+		background-color: #93ff05d7;
+		border: 2px solid rgb(171, 236, 52);
+		text-transform: lowercase;
+		border-radius: 2.5cm;
+		line-height: 2.5cm;
+		font-size: 1em;
+		font-weight: 100;
+		position: absolute;
+		top: 17cm;
+		left: 5cm;
+	}
+	button4{
+		width: 2.5cm;
+		height: 2.5cm;
+		color: #080808;
+		background-color: #ffbc05a2;
+		border: 2px solid rgb(248, 191, 5);
+		text-transform: lowercase;
+		border-radius: 2.5cm;
+		line-height: 1.5cm;
+		font-size: 1em;
+		font-weight: 100;
+		position: absolute;
+		top: 20cm;
+		left: 5cm;
+	}
+
+	body{
+		background-image: url(/home/nayera/ROS-GUI/gui/MIA.jpg);
+		background-repeat: no-repeat;
+		background-size: 7cm;
+		background-position-x:2cm ;
+		background-position-y:2cm;
+		background-color:rgba(255, 255, 0, 0.295);
+	}
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
