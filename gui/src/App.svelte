@@ -100,22 +100,40 @@
 //     console.log('MAX VAL: ' + value);
 //   });
 
-	const move_forward = () => {
-		// function
-		console.log("Moving forward...");
-	}
-	const move_back = () => {
-		// function
-		console.log("Moving back...");
-	}
-	const move_right = () => {
-		// function
-		console.log("Moving right...");
-	}
-	const move_left = () => {
-		// function
-		console.log("Moving left...");
-	}
+const move_forward = () => {
+  var twist = new ROSLIB.Message({
+    linear: { x: 0.5, y: 0, z: 0 },
+    angular: { x: 0, y: 0, z: 0 }
+  });
+  cmdVel.publish(twist);
+};
+
+const move_back = () => {
+  var twist = new ROSLIB.Message({
+    linear: { x: -0.5, y: 0, z: 0 },
+    angular: { x: 0, y: 0, z: 0 }
+  });
+  cmdVel.publish(twist);
+};
+
+const move_left = () => {
+  var twist = new ROSLIB.Message({
+    linear: { x: 0, y: 0, z: 0 },
+    angular: { x: 0, y: 0, z: 0.5 }
+  });
+  cmdVel.publish(twist);
+};
+
+const move_right = () => {
+  var twist = new ROSLIB.Message({
+    linear: { x: 0, y: 0, z: 0 },
+    angular: { x: 0, y: 0, z: -0.5 }
+  });
+  cmdVel.publish(twist);
+};
+	document.onkeydown = function(e){
+		console.log("pressed " + e.key);
+
 
 	document.onkeydown = function(e){
 		console.log("pressed " + e.key);
@@ -179,7 +197,7 @@
 		font-weight: 4;
 	}
 
-	p{
+	p {
 		text-align: left;
 	}
 
