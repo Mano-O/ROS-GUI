@@ -319,7 +319,7 @@ const move_right = () => {
 		background-size: 7cm;
 		background-position-x:2cm ;
 		background-position-y:2cm;
-		background-color:rgba(255, 255, 0, 0.295);
+		background-color:rgba(255, 255, 0, 0.103);
 	}
 	@media (min-width: 640px) {
 		main {
