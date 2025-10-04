@@ -1,6 +1,7 @@
 <script>
 	import {ros} from "./RosConnection.js"
 	import ROSLIB from "roslib";
+	import Joystick from "./Joystick.svelte";
 	
 	let battery = 0
 	let LinearSpeed = 0.9
@@ -187,7 +188,7 @@
 		<p>Turtle Sim linear velcoity: {linear_v}</p>
 		<p>Turtle Sim angular velocity: {angular_v}</p>
 	</div> -->
-	
+
 	<p>You can use your keyboard to move</p>
 	<p>Battery Percentage: {battery}</p>
 	<p>Press 'space' to stop </p>
@@ -207,8 +208,8 @@
 	</div>
 
 	<div class="TurnButtons">
-	<button class="TurnLeft" on:click={turn_left}>⟲</button>
-	<button class="TurnRight" on:click={turn_right}>⟳</button>
+	<button class="TurnLeft" on:mousedown={turn_left} on:mouseup={stop}>⟲</button>
+	<button class="TurnRight" on:mousedown={turn_right} on:mouseup={stop}>⟳</button>
 	</div>
 	
 	<div class="velocity-section">
@@ -245,6 +246,8 @@
 		<input type="text" bind:value={AngularSpeed}>
 		<p>Press 'p', 'o' to adjust speed</p>
     </div>
+	<Joystick {MovementHandler} />
+
 </main>
 
 

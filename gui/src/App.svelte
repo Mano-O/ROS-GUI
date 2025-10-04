@@ -1,6 +1,5 @@
 <script>
 	import Movement from './components/Movement.svelte';
-	import Joystick from './components/Joystick.svelte';
 
   // Calling a service
   // -----------------

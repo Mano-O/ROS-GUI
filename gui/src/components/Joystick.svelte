@@ -1,59 +1,58 @@
 <script>
-    
-import { onMount } from 'svelte';
-import nipplejs from 'nipplejs';
+  import { onMount } from 'svelte';
+  import nipplejs from 'nipplejs';
 
-let joystick;
-let LinearSpeed = 0;
-let AngularSpeed = 0;
-
-onMount(() => {
-  const options = {
-    zone: document.getElementById('joystick-zone'),
-    mode: 'static',
-    position: { left: '50%', top: '50%' },
-    color: 'green',
-    size: 120
+  export let MovementHandler = (lin, x, ang) => {
+    console.log("Movement:", lin, x, ang);
   };
 
-  joystick = nipplejs.create(options);
+  let LinearSpeed = 0;
+  let AngularSpeed = 0;
+  let joystick;
 
-  joystick.on('move', (evt, data) => {
-    if (data && data.angle) {
-      const direction = data.angle.degree; // 0-360 degrees
-      const force = data.force; // how far from center (0–1)
-      
-      // Example: map joystick direction to robot movement
-      const lin = Math.cos((direction * Math.PI) / 180) * force;
-      const ang = Math.sin((direction * Math.PI) / 180) * force;
+  onMount(() => {
+    const options = {
+      zone: document.getElementById('joystick-zone'),
+      mode: 'static',
+      position: { left: '50%', top: '50%' },
+      color: 'green',
+      size: 120
+    };
 
-      LinearSpeed = lin;
-      AngularSpeed = ang;
+    joystick = nipplejs.create(options);
 
-      MovementHandler(lin, 0, ang); // send command to ROS
-    }
+    joystick.on('move', (evt, data) => {
+      if (data && data.angle) {
+        const direction = data.angle.degree; // 0–360 degrees
+        const force = data.force; // how far from center (0–1)
+        
+        console.log("JOYSTICK ANGLE: "+ data.angle.degree, "Force: "+ direction)
+
+        // Convert joystick direction to movement speeds
+        const x = Math.cos((direction * Math.PI) / 180) * force;
+        const y = Math.sin((direction * Math.PI) / 180) * force;
+
+        MovementHandler(x, y, 0); // call external movement function
+      }
+    });
+
+    joystick.on('end', () => {
+      MovementHandler(0, 0, 0); // stop robot on release
+    });
   });
-
-  joystick.on('end', () => {
-    MovementHandler(0, 0, 0); // stop when released
-  });
-});
-
 </script>
-
 
 <div id="joystick-zone" class="joystick-zone"></div>
 
 <style>
-    .joystick-zone {
-  position: fixed;
-  bottom: 20px;
-  right: 300px;
-  width: 150px;
-  height: 150px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 50%;
-  touch-action: none;
-}
-
+  .joystick-zone {
+    position: fixed;
+    bottom: 40px;
+    right: 850px;
+    width: 200px;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    touch-action: none;
+  }
 </style>
