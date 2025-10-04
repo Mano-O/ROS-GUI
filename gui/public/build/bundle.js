@@ -6589,7 +6589,7 @@ var app = (function () {
     			div = element("div");
     			attr_dev(div, "id", "joystick-zone");
     			attr_dev(div, "class", "joystick-zone svelte-1rur58g");
-    			add_location(div, file$2, 44, 0, 1169);
+    			add_location(div, file$2, 46, 0, 1265);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6619,6 +6619,7 @@ var app = (function () {
     function instance$2($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Joystick', slots, []);
+    	let { sensetivity = 1 } = $$props;
 
     	let { MovementHandler = (lin, x, ang) => {
     		console.log("Movement:", lin, x, ang);
@@ -6646,9 +6647,10 @@ var app = (function () {
     				console.log("JOYSTICK ANGLE: " + data.angle.degree, "Force: " + direction);
 
     				// Convert joystick direction to movement speeds
-    				const x = Math.cos(direction * Math.PI / 180) * force;
+    				const x = Math.cos(direction * Math.PI / 180) * force * sensetivity;
 
-    				const y = Math.sin(direction * Math.PI / 180) * force;
+    				const y = Math.sin(direction * Math.PI / 180) * force * sensetivity;
+    				console.log("X: ", x, "Y: ", y);
     				MovementHandler(x, y, 0); // call external movement function
     			}
     		});
@@ -6658,19 +6660,21 @@ var app = (function () {
     		});
     	});
 
-    	const writable_props = ['MovementHandler'];
+    	const writable_props = ['sensetivity', 'MovementHandler'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$1.warn(`<Joystick> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$$set = $$props => {
-    		if ('MovementHandler' in $$props) $$invalidate(0, MovementHandler = $$props.MovementHandler);
+    		if ('sensetivity' in $$props) $$invalidate(0, sensetivity = $$props.sensetivity);
+    		if ('MovementHandler' in $$props) $$invalidate(1, MovementHandler = $$props.MovementHandler);
     	};
 
     	$$self.$capture_state = () => ({
     		onMount,
     		nipplejs,
+    		sensetivity,
     		MovementHandler,
     		LinearSpeed,
     		AngularSpeed,
@@ -6678,7 +6682,8 @@ var app = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('MovementHandler' in $$props) $$invalidate(0, MovementHandler = $$props.MovementHandler);
+    		if ('sensetivity' in $$props) $$invalidate(0, sensetivity = $$props.sensetivity);
+    		if ('MovementHandler' in $$props) $$invalidate(1, MovementHandler = $$props.MovementHandler);
     		if ('LinearSpeed' in $$props) LinearSpeed = $$props.LinearSpeed;
     		if ('AngularSpeed' in $$props) AngularSpeed = $$props.AngularSpeed;
     		if ('joystick' in $$props) joystick = $$props.joystick;
@@ -6688,13 +6693,13 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [MovementHandler];
+    	return [sensetivity, MovementHandler];
     }
 
     class Joystick extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { MovementHandler: 0 });
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { sensetivity: 0, MovementHandler: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -6702,6 +6707,14 @@ var app = (function () {
     			options,
     			id: create_fragment$2.name
     		});
+    	}
+
+    	get sensetivity() {
+    		throw new Error("<Joystick>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set sensetivity(value) {
+    		throw new Error("<Joystick>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
     	get MovementHandler() {
@@ -6752,7 +6765,7 @@ var app = (function () {
     	let t26;
     	let button10;
     	let t28;
-    	let div6;
+    	let div8;
     	let div3;
     	let p3;
     	let t30;
@@ -6772,21 +6785,29 @@ var app = (function () {
     	let div7;
     	let p5;
     	let t42;
-    	let input0;
-    	let t43;
-    	let input1;
+    	let div6;
+    	let button15;
     	let t44;
-    	let p6;
+    	let button16;
     	let t46;
-    	let div8;
-    	let p7;
+    	let div9;
+    	let p6;
     	let t48;
-    	let input2;
+    	let input0;
     	let t49;
-    	let input3;
+    	let input1;
     	let t50;
-    	let p8;
+    	let p7;
     	let t52;
+    	let div10;
+    	let p8;
+    	let t54;
+    	let input2;
+    	let t55;
+    	let input3;
+    	let t56;
+    	let p9;
+    	let t58;
     	let joystick;
     	let current;
     	let mounted;
@@ -6794,7 +6815,8 @@ var app = (function () {
 
     	joystick = new Joystick({
     			props: {
-    				MovementHandler: /*MovementHandler*/ ctx[3]
+    				MovementHandler: /*MovementHandler*/ ctx[4],
+    				sensetivity: /*JoystickSensitivity*/ ctx[3]
     			},
     			$$inline: true
     		});
@@ -6847,7 +6869,7 @@ var app = (function () {
     			button10 = element("button");
     			button10.textContent = "⟳";
     			t28 = space();
-    			div6 = element("div");
+    			div8 = element("div");
     			div3 = element("div");
     			p3 = element("p");
     			p3.textContent = "Linear";
@@ -6872,111 +6894,132 @@ var app = (function () {
     			t40 = space();
     			div7 = element("div");
     			p5 = element("p");
-    			p5.textContent = "Linear Speed:";
+    			p5.textContent = "Joystick";
     			t42 = space();
-    			input0 = element("input");
-    			t43 = space();
-    			input1 = element("input");
+    			div6 = element("div");
+    			button15 = element("button");
+    			button15.textContent = "▲";
     			t44 = space();
-    			p6 = element("p");
-    			p6.textContent = "Press '+', '-' to adjust speed";
+    			button16 = element("button");
+    			button16.textContent = "▼";
     			t46 = space();
-    			div8 = element("div");
-    			p7 = element("p");
-    			p7.textContent = "Angular Speed:";
+    			div9 = element("div");
+    			p6 = element("p");
+    			p6.textContent = "Linear Speed:";
     			t48 = space();
-    			input2 = element("input");
+    			input0 = element("input");
     			t49 = space();
-    			input3 = element("input");
+    			input1 = element("input");
     			t50 = space();
-    			p8 = element("p");
-    			p8.textContent = "Press 'p', 'o' to adjust speed";
+    			p7 = element("p");
+    			p7.textContent = "Press '+', '-' to adjust speed";
     			t52 = space();
+    			div10 = element("div");
+    			p8 = element("p");
+    			p8.textContent = "Angular Speed:";
+    			t54 = space();
+    			input2 = element("input");
+    			t55 = space();
+    			input3 = element("input");
+    			t56 = space();
+    			p9 = element("p");
+    			p9.textContent = "Press 'p', 'o' to adjust speed";
+    			t58 = space();
     			create_component(joystick.$$.fragment);
     			attr_dev(p0, "class", "svelte-pi7f0d");
-    			add_location(p0, file$1, 191, 1, 3539);
+    			add_location(p0, file$1, 204, 1, 3784);
     			attr_dev(p1, "class", "svelte-pi7f0d");
-    			add_location(p1, file$1, 192, 1, 3581);
+    			add_location(p1, file$1, 205, 1, 3826);
     			attr_dev(p2, "class", "svelte-pi7f0d");
-    			add_location(p2, file$1, 193, 1, 3619);
+    			add_location(p2, file$1, 206, 1, 3864);
     			attr_dev(button0, "class", "svelte-pi7f0d");
-    			add_location(button0, file$1, 196, 2, 3683);
+    			add_location(button0, file$1, 209, 2, 3928);
     			attr_dev(button1, "class", "svelte-pi7f0d");
-    			add_location(button1, file$1, 197, 2, 3755);
+    			add_location(button1, file$1, 210, 2, 4000);
     			attr_dev(button2, "on", "");
     			attr_dev(button2, "class", "svelte-pi7f0d");
-    			add_location(button2, file$1, 198, 2, 3822);
+    			add_location(button2, file$1, 211, 2, 4067);
     			attr_dev(button3, "class", "svelte-pi7f0d");
-    			add_location(button3, file$1, 200, 2, 3899);
+    			add_location(button3, file$1, 213, 2, 4144);
     			attr_dev(button4, "class", "svelte-pi7f0d");
-    			add_location(button4, file$1, 201, 2, 3963);
+    			add_location(button4, file$1, 214, 2, 4208);
     			attr_dev(button5, "class", "svelte-pi7f0d");
-    			add_location(button5, file$1, 202, 2, 4022);
+    			add_location(button5, file$1, 215, 2, 4267);
     			attr_dev(button6, "class", "svelte-pi7f0d");
-    			add_location(button6, file$1, 204, 2, 4088);
+    			add_location(button6, file$1, 217, 2, 4333);
     			attr_dev(button7, "class", "svelte-pi7f0d");
-    			add_location(button7, file$1, 205, 2, 4157);
+    			add_location(button7, file$1, 218, 2, 4402);
     			attr_dev(button8, "class", "svelte-pi7f0d");
-    			add_location(button8, file$1, 206, 2, 4221);
+    			add_location(button8, file$1, 219, 2, 4466);
     			attr_dev(div0, "class", "movement-pad svelte-pi7f0d");
-    			add_location(div0, file$1, 195, 4, 3654);
+    			add_location(div0, file$1, 208, 4, 3899);
     			attr_dev(button9, "class", "TurnLeft svelte-pi7f0d");
-    			add_location(button9, file$1, 210, 1, 4326);
+    			add_location(button9, file$1, 223, 1, 4571);
     			attr_dev(button10, "class", "TurnRight svelte-pi7f0d");
-    			add_location(button10, file$1, 211, 1, 4406);
+    			add_location(button10, file$1, 224, 1, 4651);
     			attr_dev(div1, "class", "TurnButtons svelte-pi7f0d");
-    			add_location(div1, file$1, 209, 1, 4299);
+    			add_location(div1, file$1, 222, 1, 4544);
     			attr_dev(p3, "class", "svelte-pi7f0d");
-    			add_location(p3, file$1, 216, 3, 4563);
+    			add_location(p3, file$1, 229, 3, 4808);
     			attr_dev(button11, "class", "vup svelte-pi7f0d");
-    			add_location(button11, file$1, 218, 4, 4615);
+    			add_location(button11, file$1, 231, 4, 4860);
     			attr_dev(button12, "class", "vdown svelte-pi7f0d");
-    			add_location(button12, file$1, 219, 4, 4685);
+    			add_location(button12, file$1, 232, 4, 4930);
     			attr_dev(div2, "class", "velocity-buttons svelte-pi7f0d");
-    			add_location(div2, file$1, 217, 3, 4580);
+    			add_location(div2, file$1, 230, 3, 4825);
     			attr_dev(div3, "class", "velocity-group svelte-pi7f0d");
-    			add_location(div3, file$1, 215, 2, 4531);
+    			add_location(div3, file$1, 228, 2, 4776);
     			attr_dev(p4, "class", "svelte-pi7f0d");
-    			add_location(p4, file$1, 224, 3, 4807);
+    			add_location(p4, file$1, 237, 3, 5052);
     			attr_dev(button13, "class", "vup svelte-pi7f0d");
-    			add_location(button13, file$1, 226, 4, 4860);
+    			add_location(button13, file$1, 239, 4, 5105);
     			attr_dev(button14, "class", "vdown svelte-pi7f0d");
-    			add_location(button14, file$1, 227, 4, 4931);
+    			add_location(button14, file$1, 240, 4, 5176);
     			attr_dev(div4, "class", "velocity-buttons svelte-pi7f0d");
-    			add_location(div4, file$1, 225, 3, 4825);
+    			add_location(div4, file$1, 238, 3, 5070);
     			attr_dev(div5, "class", "velocity-group svelte-pi7f0d");
-    			add_location(div5, file$1, 223, 2, 4775);
-    			attr_dev(div6, "class", "velocity-section svelte-pi7f0d");
-    			add_location(div6, file$1, 214, 1, 4498);
+    			add_location(div5, file$1, 236, 2, 5020);
     			attr_dev(p5, "class", "svelte-pi7f0d");
-    			add_location(p5, file$1, 236, 2, 5069);
+    			add_location(p5, file$1, 245, 3, 5299);
+    			attr_dev(button15, "class", "vup svelte-pi7f0d");
+    			add_location(button15, file$1, 247, 4, 5353);
+    			attr_dev(button16, "class", "vdown svelte-pi7f0d");
+    			add_location(button16, file$1, 248, 4, 5425);
+    			attr_dev(div6, "class", "velocity-buttons svelte-pi7f0d");
+    			add_location(div6, file$1, 246, 3, 5318);
+    			attr_dev(div7, "class", "velocity-group svelte-pi7f0d");
+    			add_location(div7, file$1, 244, 2, 5267);
+    			attr_dev(div8, "class", "velocity-section svelte-pi7f0d");
+    			add_location(div8, file$1, 227, 1, 4743);
+    			attr_dev(p6, "class", "svelte-pi7f0d");
+    			add_location(p6, file$1, 257, 2, 5564);
     			attr_dev(input0, "type", "range");
     			attr_dev(input0, "min", "0");
     			attr_dev(input0, "max", "20");
     			attr_dev(input0, "class", "slider svelte-pi7f0d");
     			attr_dev(input0, "id", "myRange");
-    			add_location(input0, file$1, 237, 2, 5093);
+    			add_location(input0, file$1, 258, 2, 5588);
     			attr_dev(input1, "type", "text");
-    			add_location(input1, file$1, 238, 2, 5186);
-    			attr_dev(p6, "class", "svelte-pi7f0d");
-    			add_location(p6, file$1, 239, 2, 5233);
-    			attr_dev(div7, "class", "LinearSlideContainer svelte-pi7f0d");
-    			add_location(div7, file$1, 235, 1, 5032);
+    			add_location(input1, file$1, 259, 2, 5681);
     			attr_dev(p7, "class", "svelte-pi7f0d");
-    			add_location(p7, file$1, 243, 2, 5319);
+    			add_location(p7, file$1, 260, 2, 5728);
+    			attr_dev(div9, "class", "LinearSlideContainer svelte-pi7f0d");
+    			add_location(div9, file$1, 256, 1, 5527);
+    			attr_dev(p8, "class", "svelte-pi7f0d");
+    			add_location(p8, file$1, 264, 2, 5814);
     			attr_dev(input2, "type", "range");
     			attr_dev(input2, "min", "0");
     			attr_dev(input2, "max", "10");
     			attr_dev(input2, "class", "slider svelte-pi7f0d");
     			attr_dev(input2, "id", "myRange");
-    			add_location(input2, file$1, 244, 2, 5344);
+    			add_location(input2, file$1, 265, 2, 5839);
     			attr_dev(input3, "type", "text");
-    			add_location(input3, file$1, 245, 2, 5438);
-    			attr_dev(p8, "class", "svelte-pi7f0d");
-    			add_location(p8, file$1, 246, 2, 5486);
-    			attr_dev(div8, "class", "AngularSlideContainer svelte-pi7f0d");
-    			add_location(div8, file$1, 242, 1, 5281);
-    			add_location(main, file$1, 181, 0, 3296);
+    			add_location(input3, file$1, 266, 2, 5933);
+    			attr_dev(p9, "class", "svelte-pi7f0d");
+    			add_location(p9, file$1, 267, 2, 5981);
+    			attr_dev(div10, "class", "AngularSlideContainer svelte-pi7f0d");
+    			add_location(div10, file$1, 263, 1, 5776);
+    			add_location(main, file$1, 194, 0, 3541);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -7015,82 +7058,92 @@ var app = (function () {
     			append_dev(div1, t26);
     			append_dev(div1, button10);
     			append_dev(main, t28);
-    			append_dev(main, div6);
-    			append_dev(div6, div3);
+    			append_dev(main, div8);
+    			append_dev(div8, div3);
     			append_dev(div3, p3);
     			append_dev(div3, t30);
     			append_dev(div3, div2);
     			append_dev(div2, button11);
     			append_dev(div2, t32);
     			append_dev(div2, button12);
-    			append_dev(div6, t34);
-    			append_dev(div6, div5);
+    			append_dev(div8, t34);
+    			append_dev(div8, div5);
     			append_dev(div5, p4);
     			append_dev(div5, t36);
     			append_dev(div5, div4);
     			append_dev(div4, button13);
     			append_dev(div4, t38);
     			append_dev(div4, button14);
-    			append_dev(main, t40);
-    			append_dev(main, div7);
+    			append_dev(div8, t40);
+    			append_dev(div8, div7);
     			append_dev(div7, p5);
     			append_dev(div7, t42);
-    			append_dev(div7, input0);
-    			set_input_value(input0, /*LinearSpeed*/ ctx[1]);
-    			append_dev(div7, t43);
-    			append_dev(div7, input1);
-    			set_input_value(input1, /*LinearSpeed*/ ctx[1]);
-    			append_dev(div7, t44);
-    			append_dev(div7, p6);
+    			append_dev(div7, div6);
+    			append_dev(div6, button15);
+    			append_dev(div6, t44);
+    			append_dev(div6, button16);
     			append_dev(main, t46);
-    			append_dev(main, div8);
-    			append_dev(div8, p7);
-    			append_dev(div8, t48);
-    			append_dev(div8, input2);
-    			set_input_value(input2, /*AngularSpeed*/ ctx[2]);
-    			append_dev(div8, t49);
-    			append_dev(div8, input3);
-    			set_input_value(input3, /*AngularSpeed*/ ctx[2]);
-    			append_dev(div8, t50);
-    			append_dev(div8, p8);
+    			append_dev(main, div9);
+    			append_dev(div9, p6);
+    			append_dev(div9, t48);
+    			append_dev(div9, input0);
+    			set_input_value(input0, /*LinearSpeed*/ ctx[1]);
+    			append_dev(div9, t49);
+    			append_dev(div9, input1);
+    			set_input_value(input1, /*LinearSpeed*/ ctx[1]);
+    			append_dev(div9, t50);
+    			append_dev(div9, p7);
     			append_dev(main, t52);
+    			append_dev(main, div10);
+    			append_dev(div10, p8);
+    			append_dev(div10, t54);
+    			append_dev(div10, input2);
+    			set_input_value(input2, /*AngularSpeed*/ ctx[2]);
+    			append_dev(div10, t55);
+    			append_dev(div10, input3);
+    			set_input_value(input3, /*AngularSpeed*/ ctx[2]);
+    			append_dev(div10, t56);
+    			append_dev(div10, p9);
+    			append_dev(main, t58);
     			mount_component(joystick, main, null);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "mousedown", /*move_forward_left*/ ctx[10], false, false, false, false),
-    					listen_dev(button0, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button1, "mousedown", /*move_forward*/ ctx[8], false, false, false, false),
-    					listen_dev(button1, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button2, "mousedown", /*move_forward_right*/ ctx[9], false, false, false, false),
-    					listen_dev(button2, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button3, "mousedown", /*move_left*/ ctx[16], false, false, false, false),
-    					listen_dev(button3, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button4, "mousedown", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button4, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button5, "mousedown", /*move_right*/ ctx[17], false, false, false, false),
-    					listen_dev(button5, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button6, "mousedown", /*move_back_left*/ ctx[13], false, false, false, false),
-    					listen_dev(button6, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button7, "mousedown", /*move_back*/ ctx[11], false, false, false, false),
-    					listen_dev(button7, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button8, "mousedown", /*move_back_right*/ ctx[12], false, false, false, false),
-    					listen_dev(button8, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button9, "mousedown", /*turn_left*/ ctx[14], false, false, false, false),
-    					listen_dev(button9, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button10, "mousedown", /*turn_right*/ ctx[15], false, false, false, false),
-    					listen_dev(button10, "mouseup", /*stop*/ ctx[18], false, false, false, false),
-    					listen_dev(button11, "click", /*click_handler*/ ctx[19], false, false, false, false),
-    					listen_dev(button12, "click", /*click_handler_1*/ ctx[20], false, false, false, false),
-    					listen_dev(button13, "click", /*click_handler_2*/ ctx[21], false, false, false, false),
-    					listen_dev(button14, "click", /*click_handler_3*/ ctx[22], false, false, false, false),
-    					listen_dev(input0, "change", /*input0_change_input_handler*/ ctx[23]),
-    					listen_dev(input0, "input", /*input0_change_input_handler*/ ctx[23]),
-    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[24]),
-    					listen_dev(input2, "change", /*input2_change_input_handler*/ ctx[25]),
-    					listen_dev(input2, "input", /*input2_change_input_handler*/ ctx[25]),
-    					listen_dev(input3, "input", /*input3_input_handler*/ ctx[26])
+    					listen_dev(button0, "mousedown", /*move_forward_left*/ ctx[13], false, false, false, false),
+    					listen_dev(button0, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button1, "mousedown", /*move_forward*/ ctx[11], false, false, false, false),
+    					listen_dev(button1, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button2, "mousedown", /*move_forward_right*/ ctx[12], false, false, false, false),
+    					listen_dev(button2, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button3, "mousedown", /*move_left*/ ctx[19], false, false, false, false),
+    					listen_dev(button3, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button4, "mousedown", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button4, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button5, "mousedown", /*move_right*/ ctx[20], false, false, false, false),
+    					listen_dev(button5, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button6, "mousedown", /*move_back_left*/ ctx[16], false, false, false, false),
+    					listen_dev(button6, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button7, "mousedown", /*move_back*/ ctx[14], false, false, false, false),
+    					listen_dev(button7, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button8, "mousedown", /*move_back_right*/ ctx[15], false, false, false, false),
+    					listen_dev(button8, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button9, "mousedown", /*turn_left*/ ctx[17], false, false, false, false),
+    					listen_dev(button9, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button10, "mousedown", /*turn_right*/ ctx[18], false, false, false, false),
+    					listen_dev(button10, "mouseup", /*stop*/ ctx[21], false, false, false, false),
+    					listen_dev(button11, "click", /*click_handler*/ ctx[22], false, false, false, false),
+    					listen_dev(button12, "click", /*click_handler_1*/ ctx[23], false, false, false, false),
+    					listen_dev(button13, "click", /*click_handler_2*/ ctx[24], false, false, false, false),
+    					listen_dev(button14, "click", /*click_handler_3*/ ctx[25], false, false, false, false),
+    					listen_dev(button15, "click", /*click_handler_4*/ ctx[26], false, false, false, false),
+    					listen_dev(button16, "click", /*click_handler_5*/ ctx[27], false, false, false, false),
+    					listen_dev(input0, "change", /*input0_change_input_handler*/ ctx[28]),
+    					listen_dev(input0, "input", /*input0_change_input_handler*/ ctx[28]),
+    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[29]),
+    					listen_dev(input2, "change", /*input2_change_input_handler*/ ctx[30]),
+    					listen_dev(input2, "input", /*input2_change_input_handler*/ ctx[30]),
+    					listen_dev(input3, "input", /*input3_input_handler*/ ctx[31])
     				];
 
     				mounted = true;
@@ -7114,6 +7167,10 @@ var app = (function () {
     			if (dirty[0] & /*AngularSpeed*/ 4 && input3.value !== /*AngularSpeed*/ ctx[2]) {
     				set_input_value(input3, /*AngularSpeed*/ ctx[2]);
     			}
+
+    			const joystick_changes = {};
+    			if (dirty[0] & /*JoystickSensitivity*/ 8) joystick_changes.sensetivity = /*JoystickSensitivity*/ ctx[3];
+    			joystick.$set(joystick_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -7149,6 +7206,7 @@ var app = (function () {
     	let battery = 0;
     	let LinearSpeed = 0.9;
     	let AngularSpeed = 0.3;
+    	let JoystickSensitivity = 1;
     	let x = 0;
     	let y = 0;
     	let theta = 0;
@@ -7192,6 +7250,18 @@ var app = (function () {
     	const decrementAngular = () => {
     		if (AngularSpeed > 0.1) {
     			$$invalidate(2, AngularSpeed -= 0.1);
+    		}
+    	};
+
+    	const incrementJoystick = () => {
+    		if (JoystickSensitivity > 0) {
+    			$$invalidate(3, JoystickSensitivity += 0.1);
+    		}
+    	};
+
+    	const decrementJoystick = () => {
+    		if (JoystickSensitivity > 0.1) {
+    			$$invalidate(3, JoystickSensitivity -= 0.1);
     		}
     	};
 
@@ -7320,6 +7390,8 @@ var app = (function () {
     	const click_handler_1 = () => decrementLinear();
     	const click_handler_2 = () => incrementAngular();
     	const click_handler_3 = () => decrementAngular();
+    	const click_handler_4 = () => incrementJoystick();
+    	const click_handler_5 = () => decrementJoystick();
 
     	function input0_change_input_handler() {
     		LinearSpeed = to_number(this.value);
@@ -7348,6 +7420,7 @@ var app = (function () {
     		battery,
     		LinearSpeed,
     		AngularSpeed,
+    		JoystickSensitivity,
     		x,
     		y,
     		theta,
@@ -7359,6 +7432,8 @@ var app = (function () {
     		decrementLinear,
     		incrementAngular,
     		decrementAngular,
+    		incrementJoystick,
+    		decrementJoystick,
     		listener,
     		move_forward,
     		move_forward_right,
@@ -7377,6 +7452,7 @@ var app = (function () {
     		if ('battery' in $$props) $$invalidate(0, battery = $$props.battery);
     		if ('LinearSpeed' in $$props) $$invalidate(1, LinearSpeed = $$props.LinearSpeed);
     		if ('AngularSpeed' in $$props) $$invalidate(2, AngularSpeed = $$props.AngularSpeed);
+    		if ('JoystickSensitivity' in $$props) $$invalidate(3, JoystickSensitivity = $$props.JoystickSensitivity);
     		if ('x' in $$props) x = $$props.x;
     		if ('y' in $$props) y = $$props.y;
     		if ('theta' in $$props) theta = $$props.theta;
@@ -7394,11 +7470,14 @@ var app = (function () {
     		battery,
     		LinearSpeed,
     		AngularSpeed,
+    		JoystickSensitivity,
     		MovementHandler,
     		incrementLinear,
     		decrementLinear,
     		incrementAngular,
     		decrementAngular,
+    		incrementJoystick,
+    		decrementJoystick,
     		move_forward,
     		move_forward_right,
     		move_forward_left,
@@ -7414,6 +7493,8 @@ var app = (function () {
     		click_handler_1,
     		click_handler_2,
     		click_handler_3,
+    		click_handler_4,
+    		click_handler_5,
     		input0_change_input_handler,
     		input1_input_handler,
     		input2_change_input_handler,

@@ -6,6 +6,7 @@
 	let battery = 0
 	let LinearSpeed = 0.9
 	let AngularSpeed = 0.3
+	let JoystickSensitivity = 1;
 	let x = 0
 	let y = 0
 	let theta = 0
@@ -57,6 +58,18 @@
 			AngularSpeed -= 0.1
 		}
 	};
+	const incrementJoystick = () => {
+	if (JoystickSensitivity > 0) {
+		JoystickSensitivity += 0.1;
+	}
+	};
+
+	const decrementJoystick = () => {
+		if (JoystickSensitivity > 0.1) {
+			JoystickSensitivity -= 0.1;
+		}
+	};
+
 
 
 	// Subscribing to a Topic
@@ -228,6 +241,14 @@
 				<button class="vdown" on:click={() => decrementAngular()}>▼</button>
 			</div>
 		</div>
+
+		<div class="velocity-group">
+			<p>Joystick</p>
+			<div class="velocity-buttons">
+				<button class="vup" on:click={() => incrementJoystick()}>▲</button>
+				<button class="vdown" on:click={() => decrementJoystick()}>▼</button>
+			</div>
+		</div>
 	</div>
 
 
@@ -246,7 +267,7 @@
 		<input type="text" bind:value={AngularSpeed}>
 		<p>Press 'p', 'o' to adjust speed</p>
     </div>
-	<Joystick {MovementHandler} />
+	<Joystick {MovementHandler} sensetivity={JoystickSensitivity}/>
 
 </main>
 

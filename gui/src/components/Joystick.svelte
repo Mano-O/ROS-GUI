@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import nipplejs from 'nipplejs';
+  export let sensetivity = 1
 
   export let MovementHandler = (lin, x, ang) => {
     console.log("Movement:", lin, x, ang);
@@ -29,8 +30,9 @@
         console.log("JOYSTICK ANGLE: "+ data.angle.degree, "Force: "+ direction)
 
         // Convert joystick direction to movement speeds
-        const x = Math.cos((direction * Math.PI) / 180) * force;
-        const y = Math.sin((direction * Math.PI) / 180) * force;
+        const x = Math.cos((direction * Math.PI) / 180) * force * sensetivity;
+        const y = Math.sin((direction * Math.PI) / 180) * force * sensetivity;
+        console.log("X: ",x,"Y: ", y);
 
         MovementHandler(x, y, 0); // call external movement function
       }
