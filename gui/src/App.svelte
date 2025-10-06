@@ -40,6 +40,7 @@
 //   });
 </script>
 
+
 <main>
 	<h1>ROS GUI!</h1>
 	<h2>Under Construction.</h2>
@@ -50,10 +51,10 @@
 <style>
 
 	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+		position: relative;      
+		min-height: 100vh;       /* make it fill the full viewport height */
+		/* width: 100%;              */
+		/* overflow: hidden;        optional: prevents scrollbars if elements go out of bounds  */
 	}
 
 	h1 {
@@ -69,18 +70,4 @@
 		font-weight: 4;
 	}
 
-
-	/* body{
-		background-image: url(./MIA.jpg);
-		background-repeat: no-repeat;
-		background-size: 7cm;
-		background-position-x:2cm ;
-		background-position-y:2cm;
-		background-color:rgba(255, 255, 0, 0.103);
-	} */
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>

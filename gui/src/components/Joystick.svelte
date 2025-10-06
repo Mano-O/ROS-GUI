@@ -48,11 +48,12 @@
 
 <style>
   .joystick-zone {
-    position: fixed;
-    bottom: 40px;
-    right: 850px;
-    width: 200px;
-    height: 200px;
+    position: absolute;
+    bottom: 23vh;
+    left: 50vw;
+    width: 25vmin; /* vmin picks the smaller out of vh and vw for it to be round not oval */
+    height: 25vmin;
+    transform: translate(-50%, 50%); /* Transforms the centre so it doesnt move */
     background: rgba(0, 0, 0, 0.2);
     border-radius: 50%;
     touch-action: none;

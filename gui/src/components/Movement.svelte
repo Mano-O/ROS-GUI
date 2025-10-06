@@ -205,54 +205,7 @@
 	<p>You can use your keyboard to move</p>
 	<p>Battery Percentage: {battery}</p>
 	<p>Press 'space' to stop </p>
-
-    <div class="movement-pad">
-		<button on:mousedown={move_forward_left} on:mouseup={stop}>↖</button>
-		<button on:mousedown={move_forward} on:mouseup={stop}>↑</button>
-		<button on:mousedown={move_forward_right} on:mouseup={stop} on>↗</button>
-
-		<button on:mousedown={move_left} on:mouseup={stop}>←</button>
-		<button on:mousedown={stop} on:mouseup={stop}>⏸</button>
-		<button on:mousedown={move_right} on:mouseup={stop}>→</button>
-
-		<button on:mousedown={move_back_left} on:mouseup={stop}>↙</button>
-		<button on:mousedown={move_back} on:mouseup={stop}>↓</button>
-		<button on:mousedown={move_back_right} on:mouseup={stop}>↘</button>
-	</div>
-
-	<div class="TurnButtons">
-	<button class="TurnLeft" on:mousedown={turn_left} on:mouseup={stop}>⟲</button>
-	<button class="TurnRight" on:mousedown={turn_right} on:mouseup={stop}>⟳</button>
-	</div>
 	
-	<div class="velocity-section">
-		<div class="velocity-group">
-			<p>Linear</p>
-			<div class="velocity-buttons">
-				<button class="vup" on:click={() => incrementLinear()}>▲</button>
-				<button class="vdown" on:click={() => decrementLinear()}>▼</button>
-			</div>
-		</div>
-
-		<div class="velocity-group">
-			<p>Angular</p>
-			<div class="velocity-buttons">
-				<button class="vup" on:click={() => incrementAngular()}>▲</button>
-				<button class="vdown" on:click={() => decrementAngular()}>▼</button>
-			</div>
-		</div>
-
-		<div class="velocity-group">
-			<p>Joystick</p>
-			<div class="velocity-buttons">
-				<button class="vup" on:click={() => incrementJoystick()}>▲</button>
-				<button class="vdown" on:click={() => decrementJoystick()}>▼</button>
-			</div>
-		</div>
-	</div>
-
-
-
 
 	<div class="LinearSlideContainer">
 		<p>Linear Speed: </p>
@@ -267,12 +220,71 @@
 		<input type="text" bind:value={AngularSpeed}>
 		<p>Press 'p', 'o' to adjust speed</p>
     </div>
+
+	
+    <div class="movement-pad">
+		<div class="turnButtons">
+			<button class="TurnLeft" on:mousedown={turn_left} on:mouseup={stop}>⟲</button>
+			<button class="TurnRight" on:mousedown={turn_right} on:mouseup={stop}>⟳</button>
+		</div>
+
+		<div class="mainButtons">
+			<button on:mousedown={move_forward_left} on:mouseup={stop}>↖</button>
+		<button on:mousedown={move_forward} on:mouseup={stop}>↑</button>
+		<button on:mousedown={move_forward_right} on:mouseup={stop} on>↗</button>
+
+		<button on:mousedown={move_left} on:mouseup={stop}>←</button>
+		<button id="stop" on:mousedown={stop} on:mouseup={stop}>✋</button>
+		<button on:mousedown={move_right} on:mouseup={stop}>→</button>
+
+		<button on:mousedown={move_back_left} on:mouseup={stop}>↙</button>
+		<button on:mousedown={move_back} on:mouseup={stop}>↓</button>
+		<button on:mousedown={move_back_right} on:mouseup={stop}>↘</button>
+		</div>
+	</div>
+
+
+	<div class="velocity-section">
+		<div class="velocity-group">
+			<p>Linear</p>
+			<div class="velocity-buttons">
+				<button class="vup" on:click={() => incrementLinear()}>+</button>
+				<button class="vdown" on:click={() => decrementLinear()}>-</button>
+			</div>
+		</div>
+
+		<div class="velocity-group">
+			<p>Angular</p>
+			<div class="velocity-buttons">
+				<button class="vup" on:click={() => incrementAngular()}>+</button>
+				<button class="vdown" on:click={() => decrementAngular()}>-</button>
+			</div>
+		</div>
+
+		<div class="velocity-group">
+			<p>Joystick</p>
+			<div class="velocity-buttons">
+				<button class="vup" on:click={() => incrementJoystick()}>+</button>
+				<button class="vdown" on:click={() => decrementJoystick()}>-</button>
+			</div>
+		</div>
+	</div>
+
 	<Joystick {MovementHandler} sensetivity={JoystickSensitivity}/>
 
 </main>
 
 
 <style>
+
+	/* @media (max-width: 600px) {
+		.movement-pad {
+			left: auto;
+			right: 10px;
+			bottom: 10px;
+			width: 80px;
+		}
+	} */
 
     p{
 		text-align: left;
@@ -294,26 +306,22 @@
 	}
 
     .movement-pad {
-		position: fixed;        /* stays in place even when scrolling */
-		bottom: 20px;           /* distance from bottom */
-		right: 50px; 
-		display: grid;
-		grid-template-columns: repeat(3, 80px);
-		grid-gap: 10px;
-		justify-content: center;
-		align-items: center;
-		margin-top: 30px;
+		display: inline-block;
+		position: relative;      
+		top: 10vh;
+		left: 72vw;
+		/* border: 5px solid black */
 }
-
+	
 	.movement-pad button {
 		background: #1e293b;
 		color: #fff;
-		font-size: 18px;
+		font-size: 2vw;
 		font-weight: bold;
-		padding: 15px;
+		padding: 2vw;
 		border: none;
-		border-radius: 12px;
-		box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+		border-radius: 1.2vw;
+		box-shadow: 0 0.4vw 0.6vw rgba(0,0,0,0.2);
 		cursor: pointer;
 		transition: transform 0.15s, background 0.2s;
 	}
@@ -323,40 +331,48 @@
 		transform: scale(1.1);
 	}
 
-	.TurnButtons button{
-		position: fixed;        /* stays in place even when scrolling */
-		font-size: 25px;
+	#stop{
+		background-color: rgb(185, 37, 37);
+	}
+
+	.mainButtons{
+		display: grid;
+		grid-template-columns: repeat(3, 7vw);
+		grid-gap: 0.5vw;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.turnButtons {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 11vw; /* space between the two buttons */
+	}
+ 
+	.turnButtons button{
+		/* position: relative;       */
+		font-size: 1.5em;
 		background: #0f766e;
 		color: #fff;
 		font-weight: bold;
-		padding: 15px;
-		border: none;
-		border-radius: 12px;
-		box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+		/* padding: 0.7vw; */
+		border-radius: 100vw;
+		box-shadow: 0 0.2vw 0.3vw rgba(0,0,0,0.2);
 		cursor: pointer;
 		transition: transform 0.15s, background 0.2s;
-		
-	}
-	.TurnLeft {
-		bottom: 220px;           /* distance from bottom */
-		right: 280px; 
-	}
-	.TurnRight {
-		bottom: 220px;           /* distance from bottom */
-		right: 30px; 
 	}
 	
 	.velocity-section {
-	position: fixed;
-	bottom: 20px;
-	left: 20px;
-	display: flex;
-	flex-direction: row;
-	gap: 40px;
+	position: relative;
+	top: 21vh;
+	right: 25vw;
+	display: inline-block;
+	gap: 2vw;
 	background: rgba(15, 23, 42, 0.8);
-	padding: 15px 25px;
-	border-radius: 16px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+	padding: 1.2vw 1.4vw;
+	border-radius: 1vw;
+	box-shadow: 0 0.2vw 1vw rgba(0, 0, 0, 0.4);
 	color: #fff;
 	font-family: sans-serif;
 }
@@ -365,55 +381,57 @@
 
 
 .velocity-group {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 10px;
+	display: inline-block;
+	gap: 1vw;
 }
 
 .velocity-group p {
 	font-size: 1.1em;
 	font-weight: bold;
-	margin: 0;
+	padding-right: 1vw;
 }
 
 .velocity-buttons {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	align-items: center;
+	gap: 1vw;
 }
 
 .vup,
 .vdown {
-	width: 60px;
-	height: 60px;
-	font-size: 1.5em;
+	width: 6vw;
+	height: 6vw;
+	display: flex;              /* centers content */
+	align-items: center;        /* vertical center */
+	justify-content: center;    /* horizontal center */
+	font-size: 1.5vw;
 	font-weight: bold;
 	color: #111;
 	border: none;
 	border-radius: 50%;
 	cursor: pointer;
-	transition: all 0.2s ease-in-out;
+	/* transition: all 0.2s ease-in-out; */
 }
 
 .vup {
 	background-color: #93ff05d7;
-	border: 2px solid #abec34;
+	border: 0.2vw solid #abec34;
 }
 
 .vdown {
 	background-color: #ffbc05a2;
-	border: 2px solid #f8bf05;
+	border: 0.2vw solid #f8bf05;
 }
 
 .vup:hover {
 	transform: scale(1.1);
-	box-shadow: 0 0 10px #abec34;
+	box-shadow: 0 0 0.4vw #abec34;
 }
 
 .vdown:hover {
 	transform: scale(1.1);
-	box-shadow: 0 0 10px #f8bf05;
+	box-shadow: 0 0 0.4vw #f8bf05;
 }
 
 </style>
