@@ -3,10 +3,10 @@
 	import ROSLIB from "roslib";
 	import Joystick from "./Joystick.svelte";
 	
-	let battery = 0
+	let yaw = 0
 	let LinearSpeed = 0.9
 	let AngularSpeed = 0.3
-	let JoystickSensitivity = 1;
+	let JoystickSensitivity = 1
 	let x = 0
 	let y = 0
 	let theta = 0
@@ -35,6 +35,37 @@
 		})
 		cmdVel.publish(Twist)
   	}
+
+	// Subscribing to a Topic
+	// ----------------------
+
+	var listener = new ROSLIB.Topic({
+		ros : ros,
+		name : '/turtle1/pose',
+		messageType : 'turtlesim/msg/Pose'
+	});
+
+	listener.subscribe(function(message) {
+		x = message.x;
+		y = message.y;
+		theta = message.theta;
+		linear_v = message.linear_velocity;
+		angular_v = message.angular_velocity;
+		console.log('Received message on ' + listener.name + ': ' + message.data);
+		// listener.unsubscribe();
+	});
+
+	var listener = new ROSLIB.Topic({
+		ros : ros,
+		name : '/yaw',
+		messageType : 'int'
+
+	});
+
+	listener.subscribe(function(message){
+		yaw = message
+		console.log('Received message on'+ listener.name +':'+ message.data)
+	})
 
 
 
@@ -71,36 +102,6 @@
 	};
 
 
-
-	// Subscribing to a Topic
-	// ----------------------
-
-	var listener = new ROSLIB.Topic({
-		ros : ros,
-		name : '/turtle1/pose',
-		messageType : 'turtlesim/msg/Pose'
-	});
-
-	listener.subscribe(function(message) {
-		x = message.x;
-		y = message.y;
-		theta = message.theta;
-		linear_v = message.linear_velocity;
-		angular_v = message.angular_velocity;
-		console.log('Received message on ' + listener.name + ': ' + message.data);
-		// listener.unsubscribe();
-	});
-
-	var listener = new ROSLIB.Topic({
-		ros : ros,
-		name : '/battery',
-		messageType : 'int'
-	});
-
-	listener.subscribe(function(message) {
-		battery = message
-		console.log('Received message on ' + listener.name + ': ' + message.data);
-	});
 
 	const move_forward = () => {
 		MovementHandler(LinearSpeed, 0, 0)
@@ -202,9 +203,9 @@
 		<p>Turtle Sim angular velocity: {angular_v}</p>
 	</div> -->
 
-	<p>You can use your keyboard to move</p>
-	<p>Battery Percentage: {battery}</p>
-	<p>Press 'space' to stop </p>
+	<!-- <p>You can use your keyboard to move</p> -->
+	<p>Yaw: {yaw}</p>
+	<!-- <p>Press 'space' to stop </p> -->
 	
 
 	<div class="LinearSlideContainer">
@@ -314,7 +315,7 @@
 }
 	
 	.movement-pad button {
-		background: #1e293b;
+		background: #75859C;
 		color: #fff;
 		font-size: 2vw;
 		font-weight: bold;
@@ -353,7 +354,7 @@
 	.turnButtons button{
 		/* position: relative;       */
 		font-size: 1.5em;
-		background: #0f766e;
+		background: #DE733D;
 		color: #fff;
 		font-weight: bold;
 		/* padding: 0.7vw; */
@@ -415,13 +416,13 @@
 }
 
 .vup {
-	background-color: #93ff05d7;
-	border: 0.2vw solid #abec34;
+	background-color: #05ff8ad7;
+	border: 0.2vw solid rgb(184, 255, 53)d7;
 }
 
 .vdown {
-	background-color: #ffbc05a2;
-	border: 0.2vw solid #f8bf05;
+	background-color: #DE733D;
+	border: 0.2vw solid #ff8548;
 }
 
 .vup:hover {

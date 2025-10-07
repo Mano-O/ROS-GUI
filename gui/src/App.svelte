@@ -1,5 +1,6 @@
 <script>
 	import Movement from './components/Movement.svelte';
+	import Battery from './components/Battery.svelte';
 
   // Calling a service
   // -----------------
@@ -42,14 +43,19 @@
 
 
 <main>
-	<h1>ROS GUI!</h1>
-	<h2>Under Construction.</h2>
+	<!-- add connected sign -->
+	<Battery />
+	<img src="./MIA2.jpg" alt="mia logo" class="logo">
 	<Movement />
 </main>
 
 
 <style>
-
+	:global(body) {
+	margin: 0;
+	background-color: #075B5E; /* dark blue-gray */
+	color: white;              /* optional: makes text visible */
+}
 	main {
 		position: relative;      
 		min-height: 100vh;       /* make it fill the full viewport height */
@@ -57,7 +63,15 @@
 		/* overflow: hidden;        optional: prevents scrollbars if elements go out of bounds  */
 	}
 
-	h1 {
+	.logo{
+		position: relative;    /* lets you move it around freely */
+		width: 12vw;           /* set size */
+		height: auto;           /* keep aspect ratio */
+		top: 0vh;              /* distance from top */
+		left: 34vw;             /* distance from left */
+	}
+
+	/* h1 {
 		color: #ff3e00;
 		text-transform: uppercase;
 		font-size: 4em;
@@ -68,6 +82,6 @@
 		text-transform: uppercase;
 		font-size: 2em;
 		font-weight: 4;
-	}
+	} */
 
 </style>
